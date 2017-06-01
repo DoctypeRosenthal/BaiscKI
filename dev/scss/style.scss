@@ -3,3 +3,83 @@ $primary: #006699;
 h2 {
 	color: $primary;
 }
+
+.inputWrapper {
+	position: relative;
+	display: inline-block
+}
+
+.inputWrapper > label,
+.inputWrapper > input {
+	font-family: Sans;
+	font-size: .95em;
+	line-height: 2em;
+}
+.inputWrapper > label {
+	position: absolute;
+	left: 0;
+	padding: 1px 6px;
+	z-index: 0;
+	top: 100%;
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.inputWrapper > label > i {
+	color: white
+}
+
+.inputWrapper > label > span {
+	color: black;
+	display: inline-block;
+	padding: 0 5px;
+	border: 1px solid rgb(165, 160, 160);
+    box-shadow: 1px 1px 6px -2px black;
+}
+
+
+.inputWrapper > input {
+	position: relative;
+	z-index: 1;
+	padding: 0 5px;
+	background: none;
+	border: 1px solid grey
+}
+
+
+.bt {
+	text-align: center;
+	position: relative;
+	padding: 5rem 0;
+    position: relative;
+}
+
+.bt:before {
+	content: "";
+	position: absolute;
+	height: 4rem;
+	width: 4rem;
+	background: rgba(128, 128, 128, 0.29);
+	border-radius: 100%;
+	left: 50%;
+	margin-top: -1rem;
+    margin-left: -2rem;
+}
+
+.bt-child {
+	width: 50%;
+	display: inline-block
+}
+
+.bt-prediction {
+	font-size:.9em;
+	padding: 5px;
+	border-radius: .2em;
+    background: rgb(202, 202, 202);
+    margin: 5px;
+    color: rgb(0, 0, 0);
+    display: inline-block;
+}
+
+

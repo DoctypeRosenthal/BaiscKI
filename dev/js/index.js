@@ -18,7 +18,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-        <App onEnterText={evt => console.log(evt.value)} />
+        <App />
     </Provider>,
     document.getElementById('root')
 )

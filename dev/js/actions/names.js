@@ -1,0 +1,4 @@
+export const NEW_WORD = 'NEW_WORD'
+export const SET_LAST_WORD = 'SET_LAST_WORD'
+export const UPDATE_PREDICTIONS = 'UPDATE_PREDICTIONS'
+export const FIND_WORD = 'FIND_WORD'
