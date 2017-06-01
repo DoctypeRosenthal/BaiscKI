@@ -29,19 +29,23 @@ class App extends React.Component {
 			dispatch(actions.updatePredictions(lastWord, word)) // update predictions of lastWord
 		}
 		dispatch(actions.setInputVal(evt.target.value))
-		this.handleCarretChange(evt) // detect last full word based on where the carret is
+		
 	}
 	
 
 	acceptPrediction(evt) {
-		if (evt.key !== 'Tab') return evt // do nothing if not tab
-		evt.preventDefault()
+		if (evt.key === 'Tab') {
+			evt.preventDefault()
 		
-		let {words, dispatch, prediction} = this.props,
-			inputWords = evt.target.value.split(' ')
-		
-		dispatch(actions.setInputVal(`${inputWords.slice(0, -1).join(' ')} ${prediction} `)) // paste the displayed prediction into the input plus a space char
-		dispatch(actions.setLastWord(words, prediction))
+			let {words, dispatch, prediction, inputVal, lastWord} = this.props,
+				wordsBefore = inputVal.split(' ').slice(0, -1).join(' ')
+			
+			dispatch(actions.setInputVal(`${wordsBefore} ${prediction} `)) // paste the displayed prediction into the input plus a space char
+			dispatch(actions.setLastWord(words, prediction))
+			dispatch(actions.updatePredictions(lastWord, prediction)) // update predictions of lastWord
+		}
+
+		this.handleCarretChange(evt) // detect last full word based on where the carret is
 	}
 
 	handleCarretChange(evt) {
