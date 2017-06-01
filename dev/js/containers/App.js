@@ -15,21 +15,33 @@ class App extends React.Component {
 		this.handleCarretChange = this.handleCarretChange.bind(this)
 		this.analyzeText = this.analyzeText.bind(this)
 		this.readSingleFile = this.readSingleFile.bind(this)
-		this.state = {
-			inputVal: ''
-		}
+		this.acceptPrediction = this.acceptPrediction.bind(this)
 	}
 
 	onEnterText(evt) {
-		let {dispatch,words, lastWord} = this.props,
-			inputWords = evt.target.value.split(' ')
-		this.setState({inputVal: evt.target.value})
+		let {dispatch, words, lastWord} = this.props,
+			inputWords = evt.target.value.split(' '),
+			nextState = {}
+
 		if (evt.key === ' ') {
 			let word = inputWords.slice(-1)[0]
 			dispatch(actions.addWord(word)) // try to add new word
 			dispatch(actions.updatePredictions(lastWord, word)) // update predictions of lastWord
 		}
+		dispatch(actions.setInputVal(evt.target.value))
 		this.handleCarretChange(evt) // detect last full word based on where the carret is
+	}
+	
+
+	acceptPrediction(evt) {
+		if (evt.key !== 'Tab') return evt // do nothing if not tab
+		evt.preventDefault()
+		
+		let {words, dispatch, prediction} = this.props,
+			inputWords = evt.target.value.split(' ')
+		
+		dispatch(actions.setInputVal(`${inputWords.slice(0, -1).join(' ')} ${prediction} `)) // paste the displayed prediction into the input plus a space char
+		dispatch(actions.setLastWord(words, prediction))
 	}
 
 	handleCarretChange(evt) {
@@ -65,17 +77,14 @@ class App extends React.Component {
 	}
 
 	render() {
-		let {words, lastWord, prediction} = this.props,
-			val = this.state.inputVal,
-			currentWord = val.slice(val.lastIndexOf(' ')+1),
-			pre = lastWord.predictions.find(x => x.indexOf(currentWord) === 0) || lastWord.predictions[0] // get best matching prediction
+		let {words, lastWord, inputVal, prediction} = this.props
 
 		return <div>
 	        <h1>Wortvorschläge</h1>
 	        Bitte Wörter eingeben:
 	        <div className="inputWrapper">
-	        <label htmlFor="input"><i>{val.slice(0, val.lastIndexOf(' '))}</i> {pre ? <span>{pre}</span> : null}</label>
-	        	<input id="input" onKeyDown={this.onEnterText} onClick={this.handleCarretChange} />
+	        <label htmlFor="input"><i>{inputVal.slice(0, inputVal.lastIndexOf(' '))}</i> {prediction ? <span>{prediction}</span> : null}</label>
+	        	<input id="input" onKeyDown={this.acceptPrediction} onChange={this.onEnterText} value={inputVal} onClick={this.handleCarretChange} />
 	        </div>
 	        <p>letztes Wort: {lastWord.str}</p>
 	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
@@ -86,10 +95,12 @@ class App extends React.Component {
     
 }
 
-function mapStateToProps({words, lastWord}) {
+function mapStateToProps({words, lastWord, inputVal}) {
     return {
         words,
-        lastWord
+        lastWord,
+        inputVal,
+        prediction: lastWord.predictions.find(x => x.indexOf(inputVal.split(' ').slice(-1)[0]) === 0) || lastWord.predictions[0] // get best matching prediction
     }
 }
 

@@ -1,4 +1,5 @@
 import {
+	SET_INPUT_VAL,
 	NEW_WORD,
 	SET_LAST_WORD,
 	UPDATE_PREDICTIONS,
@@ -8,6 +9,14 @@ import {
 
 import {combineReducers} from 'redux'
 
+function inputVal(state = '', action) {
+	switch(action.type) {
+		case SET_INPUT_VAL:
+			return action.str
+		default:
+			return state
+	}
+}
 // predictions array is only small (50 entries or so)
 function predictions(state = [], action) {
 	switch(action.type) {
@@ -123,5 +132,6 @@ function lastWord(state = words(undefined, {}), action) {
 
 export default combineReducers({
     words,
-    lastWord
+    lastWord,
+    inputVal
 })

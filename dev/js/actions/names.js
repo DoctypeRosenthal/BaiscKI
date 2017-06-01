@@ -1,3 +1,4 @@
+export const SET_INPUT_VAL = 'SET_INPUT_VAL'
 export const NEW_WORD = 'NEW_WORD'
 export const SET_LAST_WORD = 'SET_LAST_WORD'
 export const UPDATE_PREDICTIONS = 'UPDATE_PREDICTIONS'
