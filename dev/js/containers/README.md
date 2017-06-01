@@ -1,7 +1,5 @@
-# Containers
+## Containers vs. Components
 
-Containers fetch state data and use it to render (display) components.
-- state data will become components props
-
-Containers are similar to components. However, only containers have access to state data in Redux.
-- components are sometimes called "dumb components" or "presentational components"
+Containers are very similar to components, the only difference is that containers are aware of application state. If
+part of your webpage is only used for displaying data (dumb) then make it a component. If you need it to be smart and
+aware of the state (whenever data changes) in the application then make it a container.

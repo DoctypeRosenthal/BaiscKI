@@ -1,10 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import UserList from '../containers/user-list'
-import UserDetails from '../containers/user-detail'
-
-import BinaryTree from './BinaryTree'
+import BinaryTree from '../components/BinaryTree'
 import * as actions from '../actions'
 
 
@@ -79,7 +76,7 @@ class App extends React.Component {
 	        <label htmlFor="input"><i>{val.slice(0, val.lastIndexOf(' '))}</i> {pre ? <span>{pre}</span> : null}</label>
 	        	<input id="input" onKeyDown={this.onEnterText} onClick={this.handleCarretChange} />
 	        </div>
-	        letztes Wort: {lastWord.str}
+	        <p>letztes Wort: {lastWord.str}</p>
 	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
 	        <h2>Wortbaum</h2>
 	        <BinaryTree words={words} />
