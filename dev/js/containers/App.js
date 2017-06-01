@@ -7,7 +7,6 @@ import * as actions from '../actions'
 
 require('../../scss/style.scss')
 
-
 class App extends React.Component {
 
 	constructor(props) {
@@ -66,9 +65,11 @@ class App extends React.Component {
 	}
 
 	render() {
-		let {words, lastWord} = this.props,
-			pre = lastWord.predictions[0] || '',
-			val = this.state.inputVal
+		let {words, lastWord, prediction} = this.props,
+			val = this.state.inputVal,
+			currentWord = val.slice(val.lastIndexOf(' ')+1),
+			pre = lastWord.predictions.find(x => x.indexOf(currentWord) === 0) || lastWord.predictions[0] // get best matching prediction
+
 		return <div>
 	        <h1>Wortvorschläge</h1>
 	        Bitte Wörter eingeben:
