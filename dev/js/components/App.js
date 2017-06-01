@@ -17,6 +17,8 @@ class App extends React.Component {
 		super(props)
 		this.onEnterText = this.onEnterText.bind(this)
 		this.handleCarretChange = this.handleCarretChange.bind(this)
+		this.analyzeText = this.analyzeText.bind(this)
+		this.readSingleFile = this.readSingleFile.bind(this)
 		this.state = {
 			inputVal: ''
 		}
@@ -45,6 +47,27 @@ class App extends React.Component {
 		
 	}
 
+	analyzeText(text) {
+		this.props.dispatch(actions.analyzeWholeText(text.split(/[^\w]/)))
+	}
+
+	readSingleFile(evt) {
+	    //Retrieve the first (and only!) File from the FileList object
+	    let f = evt.target.files[0],
+	    	analyze = this.analyzeText
+
+	    if (f) {
+	    	let r = new FileReader()
+	    	r.onload = function(e) { 
+	    		let contents = e.target.result
+	    		analyze(contents)
+	    	}
+	    	r.readAsText(f)
+	    } else { 
+	    	alert("Failed to load file")
+	    }
+	}
+
 	render() {
 		let {words, lastWord} = this.props,
 			pre = lastWord.predictions[0] || '',
@@ -57,6 +80,7 @@ class App extends React.Component {
 	        	<input id="input" onKeyDown={this.onEnterText} onClick={this.handleCarretChange} />
 	        </div>
 	        letztes Wort: {lastWord.str}
+	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
 	        <h2>Wortbaum</h2>
 	        <BinaryTree words={words} />
 	    </div>

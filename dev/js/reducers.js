@@ -2,7 +2,8 @@ import {
 	NEW_WORD,
 	SET_LAST_WORD,
 	UPDATE_PREDICTIONS,
-	FIND_WORD
+	FIND_WORD,
+	ANALYZE_WHOLE_TEXT
 } from './actions/names'
 
 import {combineReducers} from 'redux'
@@ -33,6 +34,21 @@ function predictions(state = [], action) {
 
 function words(state = { higher: undefined, str: '',  lower: undefined, predictions: [] }, action) {
 	switch(action.type) {
+		case ANALYZE_WHOLE_TEXT:
+
+			let nextState = state
+			// traverse words tree for each new word. Always save the new words tree.
+			action.words.forEach(x => nextState = words(nextState, {type: NEW_WORD, word: x}))
+			// update predictions for each word
+			action.words.forEach((x,i,arr) => {
+				if (i > 0) {
+					// we begin from second word
+					nextState = words(nextState, {type: UPDATE_PREDICTIONS, word: words(nextState, {type: FIND_WORD, word: arr[i-1]}), prediction: x})
+				}
+			})
+
+			return nextState
+
 		case FIND_WORD:
 			if (state.str === '' || state.str === action.word) {
 				// found it or leaf reached without content
