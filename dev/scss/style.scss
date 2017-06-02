@@ -1,5 +1,9 @@
 $primary: #006699;
 
+html {
+	font-family: Myriad Pro
+}
+
 h2 {
 	color: $primary;
 }
@@ -11,7 +15,6 @@ h2 {
 
 .inputWrapper > label,
 .inputWrapper > input {
-	font-family: Sans;
 	font-size: .95em;
 	line-height: 2em;
 }

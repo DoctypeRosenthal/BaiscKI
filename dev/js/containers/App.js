@@ -81,13 +81,15 @@ class App extends React.Component {
 	}
 
 	render() {
-		let {words, lastWord, inputVal, prediction} = this.props
+		let {words, lastWord, inputVal, prediction} = this.props,
+			currentWord = inputVal.slice(inputVal.lastIndexOf(' ')+1),
+			textBefore = inputVal.slice(0, inputVal.lastIndexOf(' '))
 
 		return <div>
 	        <h1>Wortvorschläge</h1>
 	        Bitte Wörter eingeben:
 	        <div className="inputWrapper">
-	        <label htmlFor="input"><i>{inputVal.slice(0, inputVal.lastIndexOf(' '))}</i> {prediction ? <span>{prediction}</span> : null}</label>
+	        <label htmlFor="input"><i>{textBefore}</i> {prediction ? <span>{prediction.slice(0, currentWord.length)}<b>{prediction.slice(currentWord.length)}</b></span> : null}</label>
 	        	<input id="input" onKeyDown={this.acceptPrediction} onChange={this.onEnterText} value={inputVal} onClick={this.handleCarretChange} />
 	        </div>
 	        <p>letztes Wort: {lastWord.str}</p>
@@ -99,12 +101,20 @@ class App extends React.Component {
     
 }
 
+function getBestMatch(lastWord, currWord) {
+	// get best matching prediction
+	if (currWord === '') {
+		// just return first prediction
+		return lastWord.predictions[0] 
+	}
+	return lastWord.predictions.find(x => x.indexOf(currWord) === 0) || '' 
+}
 function mapStateToProps({words, lastWord, inputVal}) {
     return {
         words,
         lastWord,
         inputVal,
-        prediction: lastWord.predictions.find(x => x.indexOf(inputVal.split(' ').slice(-1)[0]) === 0) || lastWord.predictions[0] // get best matching prediction
+        prediction: getBestMatch(lastWord, inputVal.split(' ').slice(-1)[0])
     }
 }
 
