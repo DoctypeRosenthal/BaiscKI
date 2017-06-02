@@ -11,50 +11,56 @@ class App extends React.Component {
 
 	constructor(props) {
 		super(props)
-		this.onEnterText = this.onEnterText.bind(this)
-		this.handleCarretChange = this.handleCarretChange.bind(this)
+		this.handleInputChange = this.handleInputChange.bind(this)
+		this.handleKeyDown = this.handleKeyDown.bind(this)
+		this.handleCarretMove = this.handleCarretMove.bind(this)
 		this.analyzeText = this.analyzeText.bind(this)
 		this.readSingleFile = this.readSingleFile.bind(this)
-		this.acceptPrediction = this.acceptPrediction.bind(this)
 	}
 
-	onEnterText(evt) {
-		let {dispatch, words, lastWord} = this.props,
-			inputWords = evt.target.value.split(' '),
-			nextState = {}
+	handleInputChange(evt) {
+		this.props.dispatch(actions.setInputVal(evt.target.value))
+		this.handleCarretMove(evt) // detect last full word based on where the carret is
+	}
 
-		if (evt.key === ' ') {
-			let word = inputWords.slice(-1)[0]
-			dispatch(actions.addWord(word)) // try to add new word
-			dispatch(actions.updatePredictions(lastWord, word)) // update predictions of lastWord
+	handleKeyDown(evt) {
+		let {dispatch, wordTree, lastWord, inputVal, prediction} = this.props
+
+		switch(evt.key) {
+			case ' ':
+				let allWords = evt.target.value.split(' '),
+					newWord = allWords.slice(-1)[0]
+				dispatch(actions.addWord(newWord)) // try to add new word
+				dispatch(actions.updatePredictions(lastWord, newWord)) // update predictions of lastWord
+				this.handleInputChange(evt)
+				return 
+			case 'Tab':
+				// accept prediction
+				evt.preventDefault()
+				let wordsBefore = inputVal.slice(0, inputVal.lastIndexOf(' '))
+				if (!wordsBefore && !prediction) return
+				
+				dispatch(actions.updatePredictions(lastWord, prediction)) // update predictions of lastWord
+				evt.target.value = `${wordsBefore} ${prediction} `
+				//dispatch(actions.setLastWord(words, prediction)) // next last word is the prediction
+				//dispatch(actions.setInputVal(`${wordsBefore} ${prediction} `)) // paste the displayed prediction into the input plus a space char
+				this.handleInputChange(evt)
+				return
 		}
-		dispatch(actions.setInputVal(evt.target.value))
-		
+		this.handleCarretMove(evt)
 	}
 	
-
-	acceptPrediction(evt) {
-		if (evt.key === 'Tab') {
-			evt.preventDefault()
-		
-			let {words, dispatch, prediction, inputVal, lastWord} = this.props,
-				wordsBefore = inputVal.split(' ').slice(0, -1).join(' ')
-			
-			dispatch(actions.setInputVal(`${wordsBefore} ${prediction} `)) // paste the displayed prediction into the input plus a space char
-			dispatch(actions.setLastWord(words, prediction))
-			dispatch(actions.updatePredictions(lastWord, prediction)) // update predictions of lastWord
-		}
-
-		this.handleCarretChange(evt) // detect last full word based on where the carret is
-	}
-
-	handleCarretChange(evt) {
-		let {dispatch, lastWord, words} = this.props,
+	handleCarretMove(evt) {
+		let {dispatch, lastWord, wordTree} = this.props,
 			carretPos = evt.target.selectionStart,
-			wordsBefore = evt.target.value.slice(0, carretPos).split(' '), // words before carret
-			str = evt.key === ' ' ? wordsBefore.slice(-1)[0]  : wordsBefore.slice(-2)[0] // get last complete word
-		if (lastWord.str !== str) {
-			dispatch(actions.setLastWord(words, str))
+			wordsBefore = evt.target.value.slice(0, carretPos).match(/(\w+\ )/g), // complete words before carret
+			str
+		
+		if (wordsBefore) str = wordsBefore.slice(-1)[0].trimRight() // get last complete word
+			
+		if (str && str !== lastWord.str) {
+			// only update if something changed
+			dispatch(actions.setLastWord(wordTree, str))
 		}
 		
 	}
@@ -71,17 +77,16 @@ class App extends React.Component {
 	    if (f) {
 	    	let r = new FileReader()
 	    	r.onload = function(e) { 
-	    		let contents = e.target.result
-	    		analyze(contents)
+	    		analyze(e.target.result)
 	    	}
 	    	r.readAsText(f)
 	    } else { 
-	    	alert("Failed to load file")
+	    	throw new Error("Failed to load file")
 	    }
 	}
 
 	render() {
-		let {words, lastWord, inputVal, prediction} = this.props,
+		let {wordTree, lastWord, inputVal, prediction} = this.props,
 			currentWord = inputVal.slice(inputVal.lastIndexOf(' ')+1),
 			textBefore = inputVal.slice(0, inputVal.lastIndexOf(' '))
 
@@ -90,12 +95,12 @@ class App extends React.Component {
 	        Bitte Wörter eingeben:
 	        <div className="inputWrapper">
 	        <label htmlFor="input"><i>{textBefore}</i> {prediction ? <span>{prediction.slice(0, currentWord.length)}<b>{prediction.slice(currentWord.length)}</b></span> : null}</label>
-	        	<input id="input" onKeyDown={this.acceptPrediction} onChange={this.onEnterText} value={inputVal} onClick={this.handleCarretChange} />
+	        	<input id="input" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} value={inputVal} onClick={this.handleCarretMove} />
 	        </div>
 	        <p>letztes Wort: {lastWord.str}</p>
 	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
 	        <h2>Wortbaum</h2>
-	        <BinaryTree words={words} />
+	        <BinaryTree words={wordTree} />
 	    </div>
 	}
     
@@ -103,6 +108,7 @@ class App extends React.Component {
 
 function getBestMatch(lastWord, currWord) {
 	// get best matching prediction
+	if (currWord === '' && !lastWord.predictions[0]) return ''
 	if (currWord === '') {
 		// just return first prediction
 		return lastWord.predictions[0] 
@@ -111,7 +117,7 @@ function getBestMatch(lastWord, currWord) {
 }
 function mapStateToProps({words, lastWord, inputVal}) {
     return {
-        words,
+        wordTree: words,
         lastWord,
         inputVal,
         prediction: getBestMatch(lastWord, inputVal.split(' ').slice(-1)[0])
