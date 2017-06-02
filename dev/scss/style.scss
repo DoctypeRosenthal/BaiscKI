@@ -55,7 +55,6 @@ h2 {
 	text-align: center;
 	padding: 2em;
     position: relative;
-    min-width: 50px
 }
 
 .bt:before {
@@ -70,11 +69,14 @@ h2 {
     margin-left: -2rem;
 }
 
-.bt-child {
-	width: 50%;
-	display: inline-block
+.bt-children {
+	display: flex;
 }
 
+.bt-placeholder {
+	padding: 2em;
+    position: relative;
+}
 .bt-prediction {
 	font-size:.9em;
 	padding: 5px;
