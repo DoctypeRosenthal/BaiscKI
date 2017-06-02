@@ -92,10 +92,9 @@ class App extends React.Component {
 
 		return <div>
 	        <h1>Wortvorschläge</h1>
-	        Bitte Wörter eingeben:
 	        <div className="inputWrapper">
-	        <label htmlFor="input"><i>{textBefore}</i> {prediction ? <span>{prediction.slice(0, currentWord.length)}<b>{prediction.slice(currentWord.length)}</b></span> : null}</label>
-	        	<input id="input" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} value={inputVal} onClick={this.handleCarretMove} />
+	        	<label htmlFor="input">{textBefore} {prediction ? <span>{prediction.slice(0, currentWord.length)}<b>{prediction.slice(currentWord.length)}</b></span> : null}</label>
+	        	<input id="input" size="60" placeholder="Bitte Wörter eingeben" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} value={inputVal} onClick={this.handleCarretMove} />
 	        </div>
 	        <p>letztes Wort: {lastWord.str}</p>
 	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
