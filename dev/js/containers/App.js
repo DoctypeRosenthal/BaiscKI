@@ -42,7 +42,7 @@ class App extends React.Component {
 				// accept prediction
 				evt.preventDefault()
 				let wordsBefore = inputVal.slice(0, inputVal.lastIndexOf(' '))
-				if (!wordsBefore || !prediction) return
+				if (!prediction) return
 				
 				dispatch(actions.updatePredictions(lastWord, prediction)) // update predictions of lastWord
 				evt.target.value = `${wordsBefore} ${prediction} `
