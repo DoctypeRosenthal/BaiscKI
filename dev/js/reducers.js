@@ -44,12 +44,12 @@ function predictions(state = [], action) {
 function words(state = { higher: undefined, str: '',  lower: undefined, predictions: [] }, action) {
 	switch(action.type) {
 		case ANALYZE_WHOLE_TEXT:
-
-			let nextState = state
+			let textAsWords = action.text.replace(/(\w+)\-\n(\w+)/g, "$1$2").split(/[^\w]/), // connect words seperated by hyphen and split the text in a word array 
+				nextState = state
 			// traverse words tree for each new word. Always save the new words tree.
-			action.words.forEach(x => nextState = words(nextState, {type: NEW_WORD, word: x}))
+			textAsWords.forEach(x => nextState = words(nextState, {type: NEW_WORD, word: x}))
 			// update predictions for each word
-			action.words.forEach((x,i,arr) => {
+			textAsWords.forEach((x,i,arr) => {
 				if (i > 0) {
 					// we begin from second word
 					nextState = words(nextState, {type: UPDATE_PREDICTIONS, word: words(nextState, {type: FIND_WORD, word: arr[i-1]}), prediction: x})

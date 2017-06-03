@@ -71,7 +71,8 @@ class App extends React.Component {
 	}
 
 	analyzeText(text) {
-		this.props.dispatch(actions.analyzeWholeText(text.split(/[^\w]/)))
+		// connect words seperated by hyphen, split the text in a word array and then analyze words
+		this.props.dispatch(actions.analyzeWholeText(text))
 	}
 
 	readSingleFile(evt) {
