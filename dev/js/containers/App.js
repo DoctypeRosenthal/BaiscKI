@@ -57,9 +57,8 @@ class App extends React.Component {
 	handleCarretMove(evt) {
 		let {dispatch, lastWord, wordTree} = this.props,
 			carretPos = evt.target.selectionStart,
-			wordsBefore = evt.target.value.slice(0, carretPos).match(/(\w+\ )/g), // complete words before carret
+			wordsBefore = evt.target.value.slice(0, carretPos).replace(/[^\w ]/g, '').match(/(\w+\ )/g), // complete words before carret without punctuation
 			str
-		
 		if (wordsBefore) str = wordsBefore.slice(-1)[0].trimRight() // get last complete word
 			
 		if (str && str !== lastWord.str) {
