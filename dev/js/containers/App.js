@@ -102,7 +102,7 @@ class App extends React.Component {
 	        </div>
 	        <p>letztes Wort: {lastWord.str}</p>
 	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
-	        <h2>Wortbaum</h2>
+	        <h2>Wortbaum (Höhe: {getTreeHeight(wordTree)})</h2>
 	        <input type="checkbox" onChange={() => this.setState({showTree: !this.state.showTree})}/>anzeigen (vermindert performance!)
 	       {
 	       		this.state.showTree ?
@@ -111,6 +111,13 @@ class App extends React.Component {
 	    </div>
 	}
     
+}
+
+function getTreeHeight(tree) {
+	if (!tree) return 0
+	let lDepth = 1+getTreeHeight(tree.lower),
+		hDepth = 1+getTreeHeight(tree.higher)
+	return lDepth > hDepth ? lDepth : hDepth
 }
 
 function memoize(fn) {
