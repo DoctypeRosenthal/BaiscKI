@@ -15,7 +15,6 @@ class App extends React.Component {
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.handleKeyDown = this.handleKeyDown.bind(this)
 		this.handleCarretMove = this.handleCarretMove.bind(this)
-		this.analyzeText = this.analyzeText.bind(this)
 		this.readSingleFile = this.readSingleFile.bind(this)
 
 		this.state = {
@@ -70,15 +69,11 @@ class App extends React.Component {
 		
 	}
 
-	analyzeText(text) {
-		// connect words seperated by hyphen, split the text in a word array and then analyze words
-		this.props.dispatch(actions.analyzeWholeText(text))
-	}
-
 	readSingleFile(evt) {
 	    //Retrieve the first (and only!) File from the FileList object
-	    let f = evt.target.files[0],
-	    	analyze = this.analyzeText
+	    let {dispatch} = this.props,
+	    	f = evt.target.files[0],
+	    	analyze = text => dispatch(actions.analyzeWholeText(text))
 
 	    if (f) {
 	    	let r = new FileReader()
