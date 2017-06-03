@@ -95,7 +95,7 @@ class App extends React.Component {
 	        <h1>Wortvorschläge</h1>
 	        <div className="input-wrapper">
 	        	<div className="input-predictions">{textBefore} {prediction ? <span>{prediction.slice(0, currentWord.length)}<b>{prediction.slice(currentWord.length)}</b></span> : null}</div>
-	        	<textarea className="input-field" cols="60" rows="10" placeholder="Bitte Wörter eingeben" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} value={inputVal} onClick={this.handleCarretMove} />
+	        	<textarea className="input-field" cols="100" rows="10" placeholder="Bitte Wörter eingeben" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} value={inputVal} onClick={this.handleCarretMove} />
 	        </div>
 	        <p>letztes Wort: {lastWord.str}</p>
 	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
