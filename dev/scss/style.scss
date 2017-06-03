@@ -8,48 +8,53 @@ h2 {
 	color: $primary;
 }
 
-.inputWrapper {
+.input-wrapper {
 	position: relative;
 	display: inline-block;
-	margin-top: 2em;
 }
 
-.inputWrapper > label,
-.inputWrapper > input {
-	line-height: 2em;
+.input-predictions,
+.input-field {
+	font-family: inherit;
+	font-size: .95em;
+	line-height: 1.5em;
+	padding: .5em;
+	border: 1px solid transparent;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	margin: 0;
 }
-.inputWrapper > label {
-	z-index: 2;
-	color: white;
+
+.input-predictions {
 	position: absolute;
-	display: block;
-	padding: 1px 6px;
-	top: -2em;
+	z-index: 0;
+	color: white;
 	font-style: normal !important;
-	text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+    overflow: visible;
+    left: 0;
+	top: 0;
+	border-color: rgb(220, 220, 220)
 }
 
-.inputWrapper > label > span {
+.input-predictions > span {
 	color: black;
+	margin-top: 1.5em;
+	margin-left: -6px;
 	background: white;
 	display: inline-block;
 	padding: 0 5px;
 	border: 1px solid rgb(220, 220, 220);
-    box-shadow: 1px 1px 6px -2px black;
+    box-shadow: 2px 2px 3px -1px rgb(105, 105, 105);
 }
 
-
-.inputWrapper > #input {
-	font-size: .95em;
+.input-field {
+	color: black;
 	position: relative;
 	z-index: 1;
-	padding: 0 5px;
 	background: none;
-	border: 1px solid rgb(220, 220, 220)
+	border-color: transparent
 }
-
 
 .bt {
 	text-align: center;
