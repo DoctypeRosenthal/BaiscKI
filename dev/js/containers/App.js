@@ -7,6 +7,7 @@ import * as actions from '../actions'
 
 require('../../scss/style.scss')
 
+
 class App extends React.Component {
 
 	constructor(props) {
@@ -16,6 +17,10 @@ class App extends React.Component {
 		this.handleCarretMove = this.handleCarretMove.bind(this)
 		this.analyzeText = this.analyzeText.bind(this)
 		this.readSingleFile = this.readSingleFile.bind(this)
+
+		this.state = {
+			showTree: false
+		}
 	}
 
 	handleInputChange(evt) {
@@ -38,7 +43,7 @@ class App extends React.Component {
 				// accept prediction
 				evt.preventDefault()
 				let wordsBefore = inputVal.slice(0, inputVal.lastIndexOf(' '))
-				if (!wordsBefore && !prediction) return
+				if (!wordsBefore || !prediction) return
 				
 				dispatch(actions.updatePredictions(lastWord, prediction)) // update predictions of lastWord
 				evt.target.value = `${wordsBefore} ${prediction} `
@@ -99,27 +104,54 @@ class App extends React.Component {
 	        <p>letztes Wort: {lastWord.str}</p>
 	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
 	        <h2>Wortbaum</h2>
-	        <BinaryTree words={wordTree} />
+	        <input type="checkbox" onChange={() => this.setState({showTree: !this.state.showTree})}/>anzeigen (vermindert performance!)
+	       {
+	       		this.state.showTree ?
+	        	<BinaryTree words={wordTree} /> : null
+	       }
 	    </div>
 	}
     
 }
 
-function getBestMatch(lastWord, currWord) {
+function memoize(fn) {
+	let memoArgs = [],
+		memoRes
+	return (...args) => {
+		if (args.find(x => !memoArgs.includes(x))) {
+			// all args are the same -> return memoized res
+			return memoRes
+		}
+		memoArgs = args
+		memoRes = fn(...args)
+		return memoRes
+	}
+}
+
+function getWordFromTree(word, currWord) {
+	if (!word) return ''
+	if (word.str.indexOf(currWord) === 0) return word.str
+	return getWordFromTree(word.lower, currWord) || getWordFromTree(word.higher, currWord)
+}
+
+function getBestMatch(wordTree, lastWord, inputVal) {
+	let currWord = inputVal.split(' ').slice(-1)[0]
 	// get best matching prediction
-	if (currWord === '' && !lastWord.predictions[0]) return ''
+	if (currWord === '' && !lastWord.predictions[0]) return wordTree.str || ''
 	if (currWord === '') {
 		// just return first prediction
 		return lastWord.predictions[0] 
 	}
-	return lastWord.predictions.find(x => x.indexOf(currWord) === 0) || '' 
+	return lastWord.predictions.find(x => x.indexOf(currWord) === 0) || getWordFromTree(wordTree, currWord)
 }
+
+
 function mapStateToProps({words, lastWord, inputVal}) {
     return {
         wordTree: words,
         lastWord,
         inputVal,
-        prediction: getBestMatch(lastWord, inputVal.split(' ').slice(-1)[0])
+        prediction: getBestMatch(words, lastWord, inputVal) // this is a string
     }
 }
 

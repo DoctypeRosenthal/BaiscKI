@@ -4,16 +4,16 @@
 		"selected_items":
 		[
 			[
+				"input",
+				"inputVal"
+			],
+			[
 				"analy",
 				"analyzingWholeText"
 			],
 			[
 				"anal",
 				"analyzingWholeText"
-			],
-			[
-				"input",
-				"inputWrapper"
 			],
 			[
 				"wi",
@@ -529,6 +529,15 @@
 			}
 		},
 		{
+			"file": "dev/js/containers/App.js",
+			"settings":
+			{
+				"buffer_size": 4200,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "dev/js/actions/names.js",
 			"settings":
 			{
@@ -542,24 +551,6 @@
 			"settings":
 			{
 				"buffer_size": 512,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "dev/js/containers/App.js",
-			"settings":
-			{
-				"buffer_size": 3513,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "dev/scss/style.scss",
-			"settings":
-			{
-				"buffer_size": 1246,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -680,21 +671,21 @@
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/actions",
+		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/components",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/containers",
-		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/scss",
-		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/src/js"
+		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/scss"
 	],
 	"file_history":
 	[
+		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/scss/style.scss",
+		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/components/BinaryTree.js",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/src/index.html",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/actions/names.js",
-		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/components/BinaryTree.js",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/monnow bridge.txt",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/index.js",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/.gitignore",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/README.md",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/deutschland.txt",
-		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/scss/style.scss",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/actions/index.js",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/webpack.config.js",
 		"/mnt/Data/Dokumente/Programmizzle/JavaScript/BasicKI/dev/js/actions.js",
@@ -853,9 +844,16 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"NEW",
+			"words",
+			"handleClick",
+			"handleCarretChange",
+			"handleInputChange",
+			"onEnterText",
+			"handleInputChange",
 			"takePrediction",
 			";",
 			"; ",
@@ -976,14 +974,7 @@
 			"\t\t\t\t\t\n",
 			"displayMatricesAsJson",
 			"exportMatricesAsJson",
-			"matrix_col",
-			"matrix_row",
-			"next",
-			"childs",
-			"DOMElement",
-			"curr",
-			"DOMElements",
-			"DOMList"
+			"matrix_col"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1104,13 +1095,13 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1126,8 +1117,8 @@
 						"selection":
 						[
 							[
-								24,
-								24
+								2117,
+								2117
 							]
 						],
 						"settings":
@@ -1137,14 +1128,43 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 689.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "dev/js/containers/App.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4200,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3186,
+								3186
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1473.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "dev/js/actions/names.js",
 					"semi_transient": false,
 					"settings":
@@ -1172,7 +1192,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "dev/js/actions/index.js",
 					"semi_transient": false,
 					"settings":
@@ -1196,65 +1216,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "dev/js/containers/App.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3513,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1403,
-								1403
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 192.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "dev/scss/style.scss",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1246,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								768,
-								768
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 336.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
