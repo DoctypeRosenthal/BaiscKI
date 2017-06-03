@@ -89,12 +89,15 @@ class App extends React.Component {
 	render() {
 		let {wordTree, lastWord, inputVal, prediction} = this.props,
 			currentWord = inputVal.slice(inputVal.lastIndexOf(' ')+1),
-			textBefore = inputVal.slice(0, inputVal.lastIndexOf(' '))
+			textBefore = inputVal.slice(0, inputVal.lastIndexOf(' ')),
+			textWithBreaks = textBefore.split("\n").reduce((a,b,i) => i > 0 ? a.concat([<br key={i} />,b]) : a.concat(b), [])
 
 		return <div>
 	        <h1>Wortvorschläge</h1>
 	        <div className="input-wrapper">
-	        	<div className="input-predictions">{textBefore} {prediction ? <span>{prediction.slice(0, currentWord.length)}<b>{prediction.slice(currentWord.length)}</b></span> : null}</div>
+	        	<div className="input-predictions">
+	        		{textWithBreaks} {prediction ? <span>{prediction.slice(0, currentWord.length)}<b>{prediction.slice(currentWord.length)}</b></span> : null}
+	        		</div>
 	        	<textarea className="input-field" cols="100" rows="10" placeholder="Bitte Wörter eingeben" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} value={inputVal} onClick={this.handleCarretMove} />
 	        </div>
 	        <p>letztes Wort: {lastWord.str}</p>
