@@ -99,8 +99,10 @@ class App extends React.Component {
 	        		</div>
 	        	<textarea className="input-field" cols="100" rows="10" placeholder="Bitte Wörter eingeben" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} value={inputVal} onClick={this.handleCarretMove} />
 	        </div>
-	        <p>letztes Wort: {lastWord.str}</p>
-	        <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
+	        <p>{
+	        	lastWord.str ? "Letztes Wort: " + lastWord.str : <br />
+	        }</p>
+	        Textdatei laden: <input type="file" onChange={this.readSingleFile} multiple={false} accept="text/plain" defaultValue="Textdatei analysieren" />
 	        <h2>Wortbaum (Höhe: {getTreeHeight(wordTree)})</h2>
 	        <input type="checkbox" onChange={() => this.setState({showTree: !this.state.showTree})}/>anzeigen (vermindert performance!)
 	       {
